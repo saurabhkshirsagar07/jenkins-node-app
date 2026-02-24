@@ -1,0 +1,57 @@
+// app.js
+const express = require("express");
+const app = express();
+const PORT = 3000;
+
+// Home route serving HTML directly
+app.get("/", (req, res) => {
+  res.send(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Node.js Single File App</title>
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          text-align: center;
+          margin-top: 100px;
+          background: linear-gradient(135deg, #1e3c72, #2a5298);
+          color: white;
+        }
+        button {
+          margin-top: 20px;
+          padding: 10px 20px;
+          font-size: 16px;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+      </style>
+    </head>
+    <body>
+      <h1>🚀 Welcome to My Node.js App</h1>
+      <p>This is a single-file Express server.</p>
+      <button onclick="loadAPI()">Check API</button>
+      <p id="result"></p>
+      <script>
+        function loadAPI() {
+          fetch("/api")
+            .then(res => res.json())
+            .then(data => {
+              document.getElementById("result").innerText = data.message;
+            });
+        }
+      </script>
+    </body>
+    </html>
+  `);
+});
+
+// Simple API route
+app.get("/api", (req, res) => {
+  res.json({ message: "Hello from Node.js API 🚀", status: "success" });
+});
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});
